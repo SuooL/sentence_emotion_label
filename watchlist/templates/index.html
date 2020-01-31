@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- <p>{{ comments|length }} Titles</p> -->
+{% if current_user.is_authenticated %}
+<!-- <form method="post">
+    Name <input type="text" name="title" autocomplete="off" required>
+    Year <input type="text" name="year" autocomplete="off" required>
+    <input class="btn" type="submit" name="submit" value="Add">
+</form> -->
+
+{% endif %}
+<ul class="movie-list">
+    {% for comment in comments %}
+    
+    <li>
+        <a class="imdb" >{{ comment.id }}</a>
+        <a class='comment'>{{ comment.content }}</a>
+        <div class="float-right">
+            {% if current_user.is_authenticated %}
+            <form class="inline-form" method="post" action="{{ url_for('label', comment_id=comment.id)}}">
+                <button class="posbtn" type="submit" name="rank" value="1" title="积极评论">积极</button>
+            </form>
+
+            <form class="inline-form" method="post" action="{{ url_for('label', comment_id=comment.id)}}">
+                <button class="midbtn" type="submit" name="rank" value="2" title="中性评论">中性</button>
+            </form>
+            <form class="inline-form" method="post" action="{{ url_for('label', comment_id=comment.id)}}">
+                <button class="negbtn" type="submit" name="rank" value="3" title="消极评论">消极</button>
+            </form>
+            
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% import "_macros.html" as macros %} 
+{%if pagination%}
+    <div class="pagination" >
+        <center>{{ macros.render_pagination(pagination, '.index') }}</center>
+    </div>
+{% endif %}
+<!-- <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='images/totoro.gif') }}" title="to~to~ro~"> -->
+{% endblock %}
+
+<script>
+    function changecolor(color){
+        comment.bgColor=color;
+    }
+ </script>
+ 
