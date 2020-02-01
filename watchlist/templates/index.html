@@ -17,7 +17,7 @@
         <a class="imdb" >{{ comment.id }}</a>
         <a class='comment'>{{ comment.content }}</a>
         <div class="float-right">
-            {% if current_user.is_authenticated %}
+            {% if current_user.is_authenticated and current_user.id > 1 %}
             <form class="inline-form" method="post" action="{{ url_for('label', comment_id=comment.id)}}">
                 <button class="posbtn" type="submit" name="rank" value="1" title="积极评论">积极</button>
             </form>

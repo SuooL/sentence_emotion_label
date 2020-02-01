@@ -12,13 +12,19 @@ def index():
 
     page=request.args.get('page',1,type=int)
 
-    if current_user.id == 2:
-        pagination=Comment.query.filter_by(rank_a=0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
-    elif current_user == 3:
-        pagination=Comment.query.filter_by(rank_a=0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+    if current_user.is_authenticated:
+        if current_user.id == 2:
+            pagination=Comment.query.filter_by(rank_a=0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+        elif current_user.id == 3:
+            pagination=Comment.query.filter_by(rank_b=0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+        elif current_user.id == 4:
+            pagination=Comment.query.filter_by(rank_c=0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+        else:
+            flash("未授权用户")
+            pagination=Comment.query.order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+            # return redirect(url_for('login'))
     else:
-        pagination=Comment.query.filter_by(rank_a=0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
-    
+        return redirect(url_for('login'))
     comments=pagination.items
 
     return render_template('index.html', comments=comments, pagination=pagination)
@@ -52,8 +58,14 @@ def label(comment_id):
 
     comment = Comment.query.get_or_404(comment_id)
     name = request.form['rank']
-    comment.rank_a = name
-    
+
+    if current_user.id == 2:
+        comment.rank_a = name
+    elif current_user == 3:
+        comment.rank_b = name
+    else:
+        comment.rank_c = name    
+
     db.session.commit()
     flash(str(comment_id) + str(name))
 
@@ -89,7 +101,7 @@ def login():
             flash('Invalid input.')
             return redirect(url_for('login'))
 
-        user = User.query.first()
+        user = User.query.filter_by(username=username).first()
 
         if username == user.username and user.validate_password(password):
             login_user(user)

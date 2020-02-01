@@ -51,7 +51,7 @@ def admin(username, password):
     """Create user."""
     # db.create_all()
 
-    user = User.query.first()
+    user = User.query.filter_by(username=username).first()
     if user is not None:
         click.echo('Updating user...')
         user.username = username
