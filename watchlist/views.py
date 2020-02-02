@@ -71,6 +71,25 @@ def label(comment_id):
 
     return redirect(url_for('index'))
 
+@app.route('/comment/relabel/<int:comment_id>', methods=['POST'])
+@login_required
+def relabel(comment_id):
+
+    comment = Comment.query.get_or_404(comment_id)
+    name = request.form['rank']
+
+    if current_user.id == 2:
+        comment.rank_a = name
+    elif current_user == 3:
+        comment.rank_b = name
+    else:
+        comment.rank_c = name    
+
+    db.session.commit()
+    flash(str(comment_id) + str(name))
+
+    return redirect(url_for('records'))
+
 
 @app.route('/settings', methods=['GET', 'POST'])
 @login_required
@@ -98,18 +117,33 @@ def records():
 
     if current_user.is_authenticated:
         if current_user.id == 2:
-            pagination=Comment.query.filter(rank_a>0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+            pagination=Comment.query.filter(rank_a>0).order_by(Comment.id.asc()).paginate(page,per_page=10000,error_out=False)
         elif current_user.id == 3:
-            pagination=Comment.query.filter(rank_b>0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+            pagination=Comment.query.filter(rank_b>0).order_by(Comment.id.asc()).paginate(page,per_page=10000,error_out=False)
         elif current_user.id == 4:
-            pagination=Comment.query.filter(Comment.rank_c>0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+            pagination=Comment.query.filter(Comment.rank_c>0).order_by(Comment.id.asc()).paginate(page,per_page=10000,error_out=False)
         else:
             flash("未授权用户")
-            pagination=Comment.query.order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+            pagination=Comment.query.order_by(Comment.id.asc()).paginate(page,per_page=10000,error_out=False)
             # return redirect(url_for('login'))
     else:
         return redirect(url_for('login'))
     comments=pagination.items
+
+    # if request.method == 'POST':
+    #     comment = Comment.query.get_or_404(comment_id)
+    #     name = request.form['rank']
+
+    #     if current_user.id == 2:
+    #         comment.rank_a = name
+    #     elif current_user == 3:
+    #         comment.rank_b = name
+    #     else:
+    #         comment.rank_c = name    
+
+    #     db.session.commit()
+    #     flash(str(comment_id) + str(name))
+
 
     return render_template('records.html', comments=comments, pagination=pagination)
 
