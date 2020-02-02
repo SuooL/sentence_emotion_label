@@ -90,6 +90,29 @@ def settings():
 
     return render_template('settings.html')
 
+@app.route('/records', methods=['GET', 'POST'])
+@login_required
+def records():
+
+    page=request.args.get('page',1,type=int)
+
+    if current_user.is_authenticated:
+        if current_user.id == 2:
+            pagination=Comment.query.filter(rank_a>0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+        elif current_user.id == 3:
+            pagination=Comment.query.filter(rank_b>0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+        elif current_user.id == 4:
+            pagination=Comment.query.filter(Comment.rank_c>0).order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+        else:
+            flash("未授权用户")
+            pagination=Comment.query.order_by(Comment.id.asc()).paginate(page,per_page=10,error_out=False)
+            # return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
+    comments=pagination.items
+
+    return render_template('records.html', comments=comments, pagination=pagination)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

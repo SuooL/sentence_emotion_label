@@ -1,21 +1,48 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- <p>{{ comments|length }} Titles</p> -->
-{% if current_user.is_authenticated %}
-<!-- <form method="post">
-    Name <input type="text" name="title" autocomplete="off" required>
-    Year <input type="text" name="year" autocomplete="off" required>
-    <input class="btn" type="submit" name="submit" value="Add">
-</form> -->
 
-{% endif %}
 <ul class="movie-list">
     {% for comment in comments %}
     
     <li>
         <a class="imdb" >{{ comment.id }}</a>
-        
+        {% if current_user.id == 2 %}
+            {% if comment.rank_a == 1 %}
+            <a class="posbtn" > 积极 </a>
+            {% endif %}
+            {% if comment.rank_a == 2 %}
+            <a class="midbtn" > 中性 </a>
+            {% endif %}
+            {% if comment.rank_a == 3 %}
+            <a class="negbtn" > 消极 </a>
+            {% endif %}
+        {% endif %}
+
+        {% if current_user.id == 3 %}
+            {% if comment.rank_b == 1 %}
+            <a class="posbtn" > 积极 </a>
+            {% endif %}
+            {% if comment.rank_b == 2 %}
+            <a class="midbtn" > 中性 </a>
+            {% endif %}
+            {% if comment.rank_b == 3 %}
+            <a class="negbtn" > 消极 </a>
+            {% endif %}
+        {% endif %}
+            
+        {% if current_user.id == 4 %}
+            {% if comment.rank_c == 1 %}
+            <a class="posbtn" > 积极 </a>
+            {% endif %}
+            {% if comment.rank_c == 2 %}
+            <a class="midbtn" > 中性 </a>
+            {% endif %}
+            {% if comment.rank_c == 3 %}
+            <a class="negbtn" > 消极 </a>
+            {% endif %}
+        {% endif %}
+
         <a class='comment'>{{ comment.content }}</a>
         <div class="float-right">
             {% if current_user.is_authenticated and current_user.id > 1 %}
@@ -43,10 +70,3 @@
 {% endif %}
 <!-- <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='images/totoro.gif') }}" title="to~to~ro~"> -->
 {% endblock %}
-
-<script>
-    function changecolor(color){
-        comment.bgColor=color;
-    }
- </script>
- 
