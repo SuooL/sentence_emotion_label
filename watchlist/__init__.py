@@ -16,7 +16,7 @@ from flask_login import LoginManager
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev')
 # app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(os.path.dirname(app.root_path), os.getenv('DATABASE_FILE', 'data.db'))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1992@Hzj@123.207.12.113/Guba'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'Your SQL'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
