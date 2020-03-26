@@ -29,6 +29,10 @@
             <form class="inline-form" method="post" action="{{ url_for('label', comment_id=comment.id)}}">
                 <button class="negbtn" type="submit" name="rank" value="3" title="消极评论">消极</button>
             </form>
+
+            <form class="inline-form" method="post" action="{{ url_for('label', comment_id=comment.id)}}">
+                <button class="delbtn" type="submit" name="rank" value="4" title="无效评论">无效</button>
+            </form>
             
             {% endif %}
         </div>

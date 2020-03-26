@@ -61,10 +61,14 @@ def label(comment_id):
 
     if current_user.id == 2:
         comment.rank_a = name
-    elif current_user == 3:
+    elif current_user.id == 3:
         comment.rank_b = name
-    else:
+    elif current_user.id == 4:
         comment.rank_c = name    
+
+    if int(name) == 4:
+        flash(str(comment_id) + str(name))
+        db.session.delete(comment)
 
     db.session.commit()
     flash(str(comment_id) + str(name))
@@ -82,8 +86,10 @@ def relabel(comment_id):
         comment.rank_a = name
     elif current_user == 3:
         comment.rank_b = name
-    else:
+    elif current_user == 4:
         comment.rank_c = name    
+
+
 
     db.session.commit()
     flash(str(comment_id) + str(name))
@@ -117,9 +123,9 @@ def records():
 
     if current_user.is_authenticated:
         if current_user.id == 2:
-            pagination=Comment.query.filter(rank_a>0).order_by(Comment.id.asc()).paginate(page,per_page=10000,error_out=False)
+            pagination=Comment.query.filter(Comment.rank_a>0).order_by(Comment.id.asc()).paginate(page,per_page=10000,error_out=False)
         elif current_user.id == 3:
-            pagination=Comment.query.filter(rank_b>0).order_by(Comment.id.asc()).paginate(page,per_page=10000,error_out=False)
+            pagination=Comment.query.filter(Comment.rank_b>0).order_by(Comment.id.asc()).paginate(page,per_page=10000,error_out=False)
         elif current_user.id == 4:
             pagination=Comment.query.filter(Comment.rank_c>0).order_by(Comment.id.asc()).paginate(page,per_page=10000,error_out=False)
         else:

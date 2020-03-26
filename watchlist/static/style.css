@@ -160,6 +160,17 @@ input[name=year] {
     cursor: pointer;
 }
 
+.delbtn {
+    font-size: 12px;
+    /* font-weight: bold; */
+    color: black;
+    text-decoration: none;
+    background: rgb(255, 0, 0);
+    border-radius: 5px;
+    padding: 5px 8px;
+    cursor: pointer;
+}
+
 .totoro {
     display: block;
     margin: 0 auto;

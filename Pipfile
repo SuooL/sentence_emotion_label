@@ -5,6 +5,7 @@ name = "pypi"
 
 [dev-packages]
 coverage = "*"
+pylint = "*"
 
 [packages]
 flask = "*"
