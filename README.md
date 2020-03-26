@@ -4,10 +4,6 @@
 
 Example application for flask tutorial "[Flask 入门教程](http://helloflask.com/tutorial)".
 
-Demo: http://watchlist.helloflask.com
-
-![Screenshot](http://helloflask.com/screenshots/watchlist.png)
-
 ## 修改后的样式如下
 
 ![](https://ypy.suool.net/B580C4F6-A18F-4ABF-82C7-991D597AEE17.png)
